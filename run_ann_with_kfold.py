@@ -11,7 +11,7 @@ from sklearn import metrics
 dataset = pandas.read_csv("dataset.csv")
 dataset = dataset.sample(frac=1)
 
-target = dataset.iloc[:,:-1].values
+target = dataset.iloc[:,-1].values
 data = dataset.iloc[:,:-1].values
 data = data/255.0 
 
@@ -46,9 +46,9 @@ for training_index, test_index in kfold_object.split(data):
 					metrics = ['accuracy'])
 
 	# fit data into machine
-	machine.fit(data, target, epochs = 30, batch_size = 64)  
+	machine.fit(data_training, target_training, epochs = 30, batch_size = 64)  
 
-	prediction = numpy.argmax(machine.predict(new_data), axis=-1)
+	new_target = numpy.argmax(machine.predict(data_test), axis=-1)
 	results_accuracy.append(metrics.accuracy_score(target_test, new_target))
 	results_confusion_matrix.append(metrics.confusion_matrix(target_test, new_target))
 
